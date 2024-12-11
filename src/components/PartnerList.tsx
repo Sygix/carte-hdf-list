@@ -3,10 +3,9 @@ import { usePartners } from '@/hooks/usePartners';
 import { SearchInput } from './SearchInput';
 import { PartnerGrid } from './PartnerGrid';
 import { LoadingSpinner } from './LoadingSpinner';
-import { ErrorMessage } from './ErrorMessage';
 
 export function PartnerList() {
-  const { partners, loading, error } = usePartners();
+  const { partners, loading } = usePartners();
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const [displayedPartners, setDisplayedPartners] = useState<unknown[]>([]);
@@ -63,10 +62,6 @@ export function PartnerList() {
 
   if (loading) {
     return <LoadingSpinner />;
-  }
-
-  if (error) {
-    return <ErrorMessage message={error.message} />;
   }
 
   return (

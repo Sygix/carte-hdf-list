@@ -6,7 +6,6 @@ import { buildWebStorage, CacheAxiosResponse, setupCache } from 'axios-cache-int
 interface UsePartnersResult {
   partners: any[];
   loading: boolean;
-  error: Error | null;
 }
 
 const instance = Axios.create();
@@ -53,7 +52,6 @@ const handleExpiredTokenRequest = async (res: CacheAxiosResponse<any[], any>) =>
 export function usePartners(): UsePartnersResult {
   const [partners, setPartners] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
 
   const handleEmptyResponse = (res: CacheAxiosResponse) => {
     if (res.data.length === 0) {
@@ -72,7 +70,7 @@ export function usePartners(): UsePartnersResult {
           res = await handleExpiredTokenRequest(res);
           handleEmptyResponse(res);
       } catch (err) {
-        setError(err instanceof Error ? err : new Error('Failed to fetch partners'));
+        setPartners(mockPartners.sort((a, b) => a.Name.localeCompare(b.Name)));
       } finally {
         setLoading(false);
       }
@@ -81,5 +79,5 @@ export function usePartners(): UsePartnersResult {
     loadPartners();
   }, []);
 
-  return { partners, loading, error };
+  return { partners, loading };
 }
