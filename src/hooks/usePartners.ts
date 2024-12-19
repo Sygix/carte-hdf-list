@@ -24,7 +24,8 @@ const getToken = async () => {
     {
       cache: {
         methods: ['post']
-      }
+      },
+      headers: { 'Content-Type': 'text/plain' }
     }
   );
   console.log('getToken cache : ', response.cached ? 'cached' : 'fetched');
@@ -35,7 +36,8 @@ const fetchPartners = async () => {
   const token = await getToken();
   const response = await axios.get<any[]>('https://thingproxy.freeboard.io/fetch/https://webservicecarto.zecarte.fr/partners?Full=true', {
     headers: {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'text/plain'
     }
   });
   console.log('fetchPartners cache : ', response.cached ? 'cached' : 'fetched');
